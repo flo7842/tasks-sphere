@@ -1,0 +1,18 @@
+cloner les fichier .env.default et compose.override.yaml
+
+cp .env.default .env
+cp compose.override.yaml.dist compose.override.yaml
+
+ensuite docker 
+Attention il faut rendre le script executable, Se rendre sur docker.entrypoint.sh et mettre le script en LF plutôt que CRLF 
+et ensuite lancer la commande chmod +x frankenphp/docker-entrypoint.sh
+docker compose down
+
+docker compose up -d --build
+
+si une erreur se présente, vérifier la version de docker-compose --version et votre version docker --version
+
+
+Utiliser le makefile présent dans le projet pour les raccourcis
+
+il faut lancer make bash pour arriver dans le container de php
