@@ -14,6 +14,15 @@ jobs:
         with:
           php-version: '8.3'
 
+      - name: Install MySQL
+        run: sudo apt-get install mysql-server -y
+
+      - name: Start MySQL service
+        run: sudo service mysql start
+
+      - name: Check MySQL service status
+        run: sudo service mysql status
+
       - name: Install dependencies
         run: composer install --no-interaction
 
@@ -25,11 +34,7 @@ jobs:
           SYMFONY_DEPRECATIONS_HELPER: '999999'
           PANTHER_APP_ENV: 'panther'
           PANTHER_ERROR_SCREENSHOT_DIR: './var/error-screenshots'
-          DATABASE_URL: '${{ secrets.DATABASE_URL }}'
-          MYSQL_DATABASE: '${{ secrets.MYSQL_DATABASE }}'
-          MYSQL_PASSWORD: '${{ secrets.MYSQL_PASSWORD }}'
-          MYSQL_ROOT_PASSWORD: '${{ secrets.MYSQL_ROOT_PASSWORD }}'
-          MYSQL_USER: '${{ secrets.MYSQL_USER }}'
+          DATABASE_URL: 'mysql://${{ secrets.MYSQL_USER }}:${{ secrets.MYSQL_PASSWORD }}@localhost:3306/${{ secrets.MYSQL_DATABASE }}?serverVersion=8.0.32&charset=utf8mb4'
         run: |
           echo "APP_ENV=${APP_ENV}" >> $GITHUB_ENV
           echo "KERNEL_CLASS=${KERNEL_CLASS}" >> $GITHUB_ENV
@@ -37,10 +42,9 @@ jobs:
           echo "PANTHER_APP_ENV=${PANTHER_APP_ENV}" >> $GITHUB_ENV
           echo "PANTHER_ERROR_SCREENSHOT_DIR=${PANTHER_ERROR_SCREENSHOT_DIR}" >> $GITHUB_ENV
           echo "DATABASE_URL=${DATABASE_URL}" >> $GITHUB_ENV
-          echo "MYSQL_DATABASE=${MYSQL_DATABASE}" >> $GITHUB_ENV
-          echo "MYSQL_PASSWORD=${MYSQL_PASSWORD}" >> $GITHUB_ENV
-          echo "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}" >> $GITHUB_ENV
-          echo "MYSQL_USER=${MYSQL_USER}" >> $GITHUB_ENV
+
+      - name: Debug database connection
+        run: echo "DATABASE_URL=mysql://${{ secrets.MYSQL_USER }}:${{ secrets.MYSQL_PASSWORD }}@localhost:3306/${{ secrets.MYSQL_DATABASE }}?serverVersion=8.0.32&charset=utf8mb4"
 
       - name: Prepare database
         run: php bin/console doctrine:database:create --env=test
