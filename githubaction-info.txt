@@ -1,0 +1,10 @@
+name: Demo <-------- Nom du fichier
+on: workflow_dispatch <------------- Type d'action
+jobs:
+  first-job: <---- Nom du job, on mets le nom que l'on veut
+    runs-on: ubuntu-latest <---- Type d'OS
+    steps:
+      - name: Print step
+        run: | <-------------Ici le Pipe permet de lancer plusieurs command dans un seul run
+          echo "Hello World !"
+          echo "Hello World 2!"
