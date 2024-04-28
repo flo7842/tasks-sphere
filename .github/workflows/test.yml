@@ -2,7 +2,7 @@ name: Test Symfony
 on: 
   push:
     branches:
-      - 'features/cng-*'
+      - '*'
   pull_request:
     branches:
       - dev
@@ -15,14 +15,17 @@ jobs:
     - name: Check branch name format
       id: check_branch_name
       run: |
-        branch_name=$(echo "${GITHUB_REF#refs/heads/}")
-        if [[ ! "$branch_name" =~ ^features/cng-[0-9]+$ ]]; then
+        branch_name=$(echo "${{ github.event.pull_request.head.ref }}")
+        echo "Branch name extracted from GITHUB_REF: $branch_name"
+        if [[ ! "$branch_name" =~ ^features/cng-\d+$ ]]; then
           echo "Error: Invalid branch name format. Branch names must follow the format 'features/cng-XX' without capital letters."
           exit 1
         fi
 
   test:
     runs-on: ubuntu-latest
+    needs: branch-validation
+    if: success()
 
     steps:
       - name: Checkout code
