@@ -17,7 +17,7 @@ jobs:
       run: |
         branch_name=$(echo "${{ github.event.pull_request.head.ref }}")
         echo "Branch name extracted from GITHUB_REF: $branch_name"
-        if [[ ! "$branch_name" =~ ^features/cng-\d+$ ]]; then
+        if [[ ! "$branch_name" =~ ^features/cng-.*$ ]]; then
           echo "Error: Invalid branch name format. Branch names must follow the format 'features/cng-XX' without capital letters."
           exit 1
         fi
