@@ -31,7 +31,7 @@ class SigninTest extends KernelTestCase
         ]);
 
         self::assertNotNull($insertedProduct);
-        self::assertEquals('flo', $insertedProduct->getUserName());
+        self::assertEquals('florian', $insertedProduct->getUserName());
 
 
     }
