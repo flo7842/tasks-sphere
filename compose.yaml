@@ -34,6 +34,16 @@ services:
       - target: 443
         published: "443"
         protocol: udp
+  selenium:
+    image: selenium/standalone-firefox
+    ports:
+      - "4444:4444"
+
+  firefoxtesting:
+    image: selenium/node-firefox-debug:3.141.59-titanium
+    ports:
+        # Port is used for VNC only
+        - 5901:5900
 
 volumes:
   caddy_data:
