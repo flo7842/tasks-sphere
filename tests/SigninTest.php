@@ -20,14 +20,14 @@ class SigninTest extends KernelTestCase
             ->getManager();
 
         $user = new User();
-        $user->setUsername('flo');
+        $user->setUsername('florian');
         $user->setPassword("floooo");
 
         $entityManager->persist($user);
         $entityManager->flush();
 
         $insertedProduct = $entityManager->getRepository(User::class)->findOneBy([
-            'username' => 'flo',
+            'username' => 'florian',
         ]);
 
         self::assertNotNull($insertedProduct);
