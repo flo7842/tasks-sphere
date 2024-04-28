@@ -12,7 +12,7 @@ class SigninTest extends KernelTestCase
 {
     use ResetDatabase, Factories;
 
-    public function testProductIsInsertedSuccessfully() : void{
+    public function testSignupUserIsSuccessfully() : void{
 
         self::bootKernel();
         $entityManager = static::$kernel->getContainer()
@@ -32,7 +32,5 @@ class SigninTest extends KernelTestCase
 
         self::assertNotNull($insertedProduct);
         self::assertEquals('florian', $insertedProduct->getUserName());
-
-
     }
 }
